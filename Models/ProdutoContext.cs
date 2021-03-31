@@ -9,6 +9,6 @@ namespace avonaleApi.Models
         {
         }
 
-        public DbSet<Produto> produtos { get; set; }
+        public DbSet<Produto> produtos { get; init; }
     }
 }
