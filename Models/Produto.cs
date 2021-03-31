@@ -15,6 +15,14 @@ namespace avonaleApi.Models
             this.nome = nome;
             this.valor_unitario = valor_unitario;
             this.qtde_estoque = qtde_estoque;
-        }   
+        }
+        public void SetValor (float valor)
+        {
+            this.valor_unitario = valor;
+        }
+        public void SetQtde (int quantidade)
+        {
+            this.qtde_estoque = quantidade;
+        }
     }
 }

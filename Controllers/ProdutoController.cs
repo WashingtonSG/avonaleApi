@@ -50,14 +50,14 @@ namespace avonaleApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Produto>> PostProduto(Produto produto)
         {
-            if(produto.nome.Length < 4
-            || produto.valor_unitario <= 0
-            || produto.qtde_estoque <= 0) {
-                return ValidationProblem();
+            if (produto.nome.Length < 4
+                || produto.valor_unitario <= 0
+                || produto.qtde_estoque <= 0) {
+
+                    return ValidationProblem();
             }
             _context.produtos.Add(produto);
             await _context.SaveChangesAsync();
-            
             return Ok("Produto Cadastrado");
         }
 

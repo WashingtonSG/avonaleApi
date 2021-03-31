@@ -13,18 +13,28 @@ namespace avonaleApi.Controllers
     [ApiController]
     public class CompraController : ControllerBase {
         private readonly CompraContext _context;
-        public CompraController(CompraContext context)
+        private readonly ProdutoContext _pContext;
+        public CompraController(CompraContext context, ProdutoContext pContext)
         {
-            _context = context;
+            _context = context; // lista de vendas
+            _pContext = pContext; // lista de produtos
         }
         [HttpPost]
         public async Task<ActionResult<Compra>> PostCompra(Compra compra)
         {
-            
+            // busca se o produto que esta sendo vendido
+            // consta na lista produtos
+            var produto = await _pContext.produtos
+                .FindAsync(compra.produto_id);
+
+            // O produto da venda não está cadastrado
+            if (produto == null) {
+                return StatusCode(412);
+            }
             _context.compras.Add(compra);
             await _context.SaveChangesAsync();
-
             return Ok("Venda realizada com sucesso");
+
         }
         private bool CompraExists(long id)
         {
