@@ -1,10 +1,14 @@
+using System.ComponentModel.DataAnnotations;
 namespace avonaleApi.Models
 {
     public class Produto
     {
         public long id { get;  init; }
+        [Required]
         public string nome { get;  private set; }
+        [Required]
         public float valor_unitario { get;  private set; }
+        [Required]
         public int qtde_estoque { get;  private set; }
         public Produto (string nome, float valor_unitario, int qtde_estoque)
         {
