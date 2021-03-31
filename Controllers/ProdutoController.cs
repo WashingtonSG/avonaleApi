@@ -53,7 +53,7 @@ namespace avonaleApi.Controllers
             if(produto.nome.Length < 4
             || produto.valor_unitario <= 0
             || produto.qtde_estoque <= 0) {
-                return StatusCode(412)
+                return ValidationProblem();
             }
             _context.produtos.Add(produto);
             await _context.SaveChangesAsync();
@@ -68,13 +68,13 @@ namespace avonaleApi.Controllers
             var produto = await _context.produtos.FindAsync(id);
             if (produto == null)
             {
-                return NotFound();
+                return BadRequest("Ocorreu um erro desconhecido");
             }
 
             _context.produtos.Remove(produto);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok("Produto excluído com sucesso");
         }
 
         private bool ProdutoExists(long id)
