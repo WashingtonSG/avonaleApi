@@ -36,6 +36,17 @@ namespace avonaleApi.Controllers
             return Ok("Venda realizada com sucesso");
 
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Compra>>> Getcompras()
+        {
+            List<Compra> compras = await _context.compras.ToListAsync();
+            if (compras.Any())
+            {
+                return compras;
+            }
+            else
+                return BadRequest("Ocorreu um erro desconhecido");
+        }
         private bool CompraExists(long id)
         {
             return _context.compras.Any(e => e.id == id);

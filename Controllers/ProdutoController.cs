@@ -58,6 +58,7 @@ namespace avonaleApi.Controllers
             }
             _context.produtos.Add(produto);
             await _context.SaveChangesAsync();
+
             return Ok("Produto Cadastrado");
         }
 
