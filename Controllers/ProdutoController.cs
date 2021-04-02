@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using avonaleApi.Models;
-
+using avonaleApi.Validadores;
 namespace avonaleApi.Controllers
 {
     [Route("api/produtos")]
@@ -50,13 +50,14 @@ namespace avonaleApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Produto>> CadastraProduto(Produto produto)
         {
-            if (TryValidateModel(produto)) {
-
-                    return ValidationProblem();
+            ValidaProduto validador = new ValidaProduto();
+            var validacao = validador.Validate(produto);
+            if (validacao.IsValid) {
+                    return StatusCode(412);
             }
+            
             produtoContext.produtos.Add(produto);
             await produtoContext.SaveChangesAsync();
-
             return Ok("Produto Cadastrado");
         }
 

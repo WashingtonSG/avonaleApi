@@ -10,19 +10,27 @@ namespace avonaleApi.Models
         public float valor_unitario { get;  private set; }
         [Required]
         public int qtde_estoque { get;  private set; }
-        public Produto (string nome, float valor_unitario, int qtde_estoque)
+        public Compra valor_venda { get; private set; }
+
+        public Produto (
+            string nome,
+            float valor_unitario,
+            int qtde_estoque
+        )
         {
             this.nome = nome;
             this.valor_unitario = valor_unitario;
             this.qtde_estoque = qtde_estoque;
+            this.valor_venda = null;
         }
-        public void SetValor (float valor)
+        public float ValorVenda(Compra compra, int valor_unitario)
         {
-            this.valor_unitario = valor;
+            return valor_unitario * compra.qtde_comprada;
         }
         public void Venda (int quantidade)
         {
             this.qtde_estoque -= quantidade;
         }
+
     }
 }

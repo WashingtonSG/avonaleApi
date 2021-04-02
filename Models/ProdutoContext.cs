@@ -10,10 +10,11 @@ namespace avonaleApi.Models
         }
 
         public DbSet<Produto> produtos { get; init; }
-        public void atualizaProdutos(long id, int quantidade)
+        public void atualizaProdutos(Compra compra, int quantidade)
         {
-            var produto = produtos.Find(id);
+            var produto = produtos.Find(compra.id);
             produto.Venda(quantidade);
+            produto.ValorVenda(compra, quantidade);
             produtos.Update(produto);
         }
     }

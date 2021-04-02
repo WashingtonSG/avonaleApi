@@ -5,7 +5,7 @@ namespace avonaleApi
     public class Pagamento
     {
         public long id {get; init; }
-        public float valor { get; init; }
+        public float valor { get; private set; }
         public struct Cartao
         {
             [Required]

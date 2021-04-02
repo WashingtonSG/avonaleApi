@@ -8,8 +8,9 @@ using Microsoft.Extensions.Hosting;
 //using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation.AspNetCore;
 using avonaleApi.Models;
-
+using avonaleApi.Validadores;
 namespace avonaleApi
 {
     public class Startup
@@ -29,12 +30,12 @@ namespace avonaleApi
                                                 opt.UseInMemoryDatabase("ProdutoList"));
             services.AddDbContext<CompraContext>(opt =>
                                                 opt.UseInMemoryDatabase("CompraList"));
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(opt =>
+                                                        opt.RegisterValidatorsFromAssemblyContaining<ValidaProduto>());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "avonaleApi", Version = "v1" });
             });
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

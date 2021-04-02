@@ -32,8 +32,7 @@ namespace avonaleApi.Controllers
                 return StatusCode(412);
             }
             compraContext.compras.Add(compra);
-            produtoContext.atualizaProdutos(
-                compra.produto_id, compra.qtde_comprada);
+            produtoContext.atualizaProdutos(compra, compra.qtde_comprada);
             //salva as alterações, na lista de produtos e vendas
             await produtoContext.SaveChangesAsync();
             await compraContext.SaveChangesAsync();
