@@ -10,5 +10,5 @@ namespace avonaleApi.Models
         }
 
         public DbSet<Compra> compras { get; init; }
-    }
+
 }

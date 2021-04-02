@@ -19,7 +19,6 @@ namespace avonaleApi.Controllers
             compraContext = context;
             produtoContext = pContext;
         }
-
         [HttpPost]
         public async Task<ActionResult<Compra>> CadastraCompra(Compra compra)
         {
@@ -29,14 +28,14 @@ namespace avonaleApi.Controllers
                 .FindAsync(compra.produto_id);
 
             // O produto da venda não está cadastrado
-            // if (produto == null) {
-            //     return StatusCode(412);
-            // }
+            if (produto == null) {
+                return StatusCode(412);
+            }
             compraContext.compras.Add(compra);
-            produto.Venda(compra.qtde_comprada); 
-            produtoContext.Update(produto);
+            produtoContext.atualizaProdutos(
+                compra.produto_id, compra.qtde_comprada);
             //salva as alterações, na lista de produtos e vendas
-            produtoContext.SaveChanges();
+            await produtoContext.SaveChangesAsync();
             await compraContext.SaveChangesAsync();
             return Ok("Venda realizada com sucesso");
 

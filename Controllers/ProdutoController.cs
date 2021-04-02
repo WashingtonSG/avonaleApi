@@ -77,7 +77,6 @@ namespace avonaleApi.Controllers
 
             return Ok("Produto excluído com sucesso");
         }
-
         private bool ProdutoExists(long id)
         {
             return produtoContext.produtos.Any(e => e.id == id);
