@@ -40,7 +40,7 @@ namespace avonaleApi.Models
                 this.cvv = cvv;
             }
         }
-            public Cartao cartao ;
+            public Cartao cartao { get; init; }
         public Compra(
             long produto_id,
             int qtde_comprada,

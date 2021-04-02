@@ -50,9 +50,7 @@ namespace avonaleApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Produto>> CadastraProduto(Produto produto)
         {
-            if (produto.nome.Length < 4
-                || produto.valor_unitario <= 0
-                || produto.qtde_estoque <= 0) {
+            if (TryValidateModel(produto)) {
 
                     return ValidationProblem();
             }
