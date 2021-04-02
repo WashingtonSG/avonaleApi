@@ -2,10 +2,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace avonaleApi
 {
+    
     public class Pagamento
     {
         public long id {get; init; }
+        [Required]
         public float valor { get; private set; }
+        [Required]
+        public Cartao cartao { get; init; }
+        public Pagamento(int valor, Cartao cartao)
+        {
+            this.valor = valor;
+            this.cartao = cartao;
+        }
         public struct Cartao
         {
             [Required]
@@ -34,13 +43,7 @@ namespace avonaleApi
                 this.bandeira = bandeira;
                 this.cvv = cvv;
             }
-        }
-        public Cartao cartao { get; init; }
-        public Pagamento(int valor, Cartao cartao)
-        {
-            this.valor = valor;
-            this.cartao = cartao;
-        }
     }
-    
+
+    }
 }

@@ -52,7 +52,7 @@ namespace avonaleApi.Controllers
         {
             ValidaProduto validador = new ValidaProduto();
             var validacao = validador.Validate(produto);
-            if (validacao.IsValid) {
+            if (!validacao.IsValid) {
                     return StatusCode(412);
             }
             
