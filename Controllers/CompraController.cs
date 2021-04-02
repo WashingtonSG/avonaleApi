@@ -12,34 +12,39 @@ namespace avonaleApi.Controllers
     [Route("api/compras")]
     [ApiController]
     public class CompraController : ControllerBase {
-        private readonly CompraContext _context;
-        private readonly ProdutoContext _pContext;
+        private readonly CompraContext compraContext;
+        private readonly ProdutoContext produtoContext;
         public CompraController(CompraContext context, ProdutoContext pContext)
         {
-            _context = context; // lista de vendas
-            _pContext = pContext; // lista de produtos
+            compraContext = context;
+            produtoContext = pContext;
         }
+
         [HttpPost]
-        public async Task<ActionResult<Compra>> PostCompra(Compra compra)
+        public async Task<ActionResult<Compra>> CadastraCompra(Compra compra)
         {
             // busca se o produto que esta sendo vendido
             // consta na lista produtos
-            var produto = await _pContext.produtos
+            var produto = await produtoContext.produtos
                 .FindAsync(compra.produto_id);
 
             // O produto da venda não está cadastrado
-            if (produto == null) {
-                return StatusCode(412);
-            }
-            _context.compras.Add(compra);
-            await _context.SaveChangesAsync();
+            // if (produto == null) {
+            //     return StatusCode(412);
+            // }
+            compraContext.compras.Add(compra);
+            produto.Venda(compra.qtde_comprada); 
+            produtoContext.Update(produto);
+            //salva as alterações, na lista de produtos e vendas
+            produtoContext.SaveChanges();
+            await compraContext.SaveChangesAsync();
             return Ok("Venda realizada com sucesso");
 
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Compra>>> Getcompras()
         {
-            List<Compra> compras = await _context.compras.ToListAsync();
+            List<Compra> compras = await compraContext.compras.ToListAsync();
             if (compras.Any())
             {
                 return compras;
@@ -49,7 +54,7 @@ namespace avonaleApi.Controllers
         }
         private bool CompraExists(long id)
         {
-            return _context.compras.Any(e => e.id == id);
+            return compraContext.compras.Any(e => e.id == id);
         }
     }
 }

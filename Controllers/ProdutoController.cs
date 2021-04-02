@@ -13,18 +13,18 @@ namespace avonaleApi.Controllers
     [ApiController]
     public class ProdutoController : ControllerBase
     {
-        private readonly ProdutoContext _context;
+        private readonly ProdutoContext produtoContext;
 
         public ProdutoController(ProdutoContext context)
         {
-            _context = context;
+            produtoContext = context;
         }
 
         // GET: api/Produto
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Produto>>> Getprodutos()
         {
-            List<Produto> produtos = await _context.produtos.ToListAsync();
+            List<Produto> produtos = await produtoContext.produtos.ToListAsync();
             if(produtos.Any()){
                 return produtos;
             } else
@@ -35,7 +35,7 @@ namespace avonaleApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Produto>> GetProduto(long id)
         {
-            var produto = await _context.produtos.FindAsync(id);
+            var produto = await produtoContext.produtos.FindAsync(id);
 
             if (produto == null)
             {
@@ -48,7 +48,7 @@ namespace avonaleApi.Controllers
 
         // POST: api/Produto
         [HttpPost]
-        public async Task<ActionResult<Produto>> PostProduto(Produto produto)
+        public async Task<ActionResult<Produto>> CadastraProduto(Produto produto)
         {
             if (produto.nome.Length < 4
                 || produto.valor_unitario <= 0
@@ -56,31 +56,31 @@ namespace avonaleApi.Controllers
 
                     return ValidationProblem();
             }
-            _context.produtos.Add(produto);
-            await _context.SaveChangesAsync();
+            produtoContext.produtos.Add(produto);
+            await produtoContext.SaveChangesAsync();
 
             return Ok("Produto Cadastrado");
         }
 
         // DELETE: api/Produto/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduto(long id)
+        public async Task<IActionResult> DeletaProduto(long id)
         {
-            var produto = await _context.produtos.FindAsync(id);
+            var produto = await produtoContext.produtos.FindAsync(id);
             if (produto == null)
             {
                 return BadRequest("Ocorreu um erro desconhecido");
             }
 
-            _context.produtos.Remove(produto);
-            await _context.SaveChangesAsync();
+            produtoContext.produtos.Remove(produto);
+            await produtoContext.SaveChangesAsync();
 
             return Ok("Produto excluído com sucesso");
         }
 
         private bool ProdutoExists(long id)
         {
-            return _context.produtos.Any(e => e.id == id);
+            return produtoContext.produtos.Any(e => e.id == id);
         }
     }
 }

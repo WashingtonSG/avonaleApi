@@ -20,9 +20,9 @@ namespace avonaleApi.Models
         {
             this.valor_unitario = valor;
         }
-        public void SetQtde (int quantidade)
+        public void Venda (int quantidade)
         {
-            this.qtde_estoque = quantidade;
+            this.qtde_estoque -= quantidade;
         }
     }
 }

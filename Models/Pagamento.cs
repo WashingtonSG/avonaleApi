@@ -5,7 +5,7 @@ namespace avonaleApi
     public class Pagamento
     {
         public float valor { get; init; }
-        public record Cartao()
+        public struct Cartao
         {
             [Required]
             [MinLength(4)]
@@ -20,7 +20,7 @@ namespace avonaleApi
             [Required]
             public string cvv { get; init; }
         }
-        public Cartao cartao; 
+        public Cartao cartao = new Cartao(); 
     }
     
 }
